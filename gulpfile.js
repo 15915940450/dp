@@ -25,20 +25,27 @@ gulp.task('css',function(){
 });
 
 gulp.task('js',function(){
-  return gulp.src(['js/modernizr.js','js/FSS.js','js/jquery-3.0.0.min.js','js/wave.js','js/theater.min.js','js/swiper.jquery.min.js','js/main.js'])
-    .pipe(concat('fangxuecong.js'))
+  return gulp.src(['js/jquery-1.9.1.min.js','js/swiper.min.js'])
+    .pipe(gulp.dest('dist/js/'));
+});
+
+gulp.task('js_main',function(){
+  return gulp.src(['js/main.js'])
     .pipe(uglify())
-    .pipe(gulp.dest('online/'));
+    .pipe(gulp.dest('dist/js/'));
 });
 
 gulp.task('img',function(){
-  return gulp.src('img/**/*')
-      //.pipe(imagemin())
-      .pipe(gulp.dest('./online/img/'));
+  return gulp.src('images/**/*')
+      .pipe(imagemin())
+      .pipe(gulp.dest('./dist/images/'));
+});
+
+gulp.task('dist',['html','css','js','js_main','img'],function(){
+  console.log('-------------dist okay.');
 });
 
 gulp.task('default',function(){
   console.log('-----http://gulpjs.com/-----');
-  console.log('-----1.run gulp basetask-----');
-  console.log('-----2.run gulp zhhk-----');
+  console.log('-----1.run gulp dist-----');
 });
