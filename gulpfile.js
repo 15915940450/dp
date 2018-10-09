@@ -1,5 +1,7 @@
 var gulp=require('gulp');
 var htmlmin=require('gulp-htmlmin');
+var exReplace=require('gulp-ex-replace');
+var concatCss=require('gulp-concat-css');
 var cleanCss=require('gulp-clean-css');
 var uglify=require('gulp-uglify');
 var imagemin=require('gulp-imagemin');
@@ -8,15 +10,18 @@ var v='?v=1.0.1';
 
 gulp.task('html',function(){
   return gulp.src('index.html')
+    .pipe(exReplace(/<link rel="stylesheet".+?\/>/g,''))
+    .pipe(exReplace(/<\/head>/g,'<link rel="stylesheet" href="wan.css'+v+'" /></head>'))
     .pipe(htmlmin({collapseWhitespace:true}))
     .pipe(gulp.dest('dist/'));
 });
 
+
 gulp.task('css',function(){
-  return gulp.src(['css/reset.css','css/grid_fee300.css','css/swiper.css','css/styles.css','tangram/css/master.min.css'])
-    .pipe(concatCss("fangxuecong.css"))
+  return gulp.src(['css/swiper.css','css/main.css'])
+    .pipe(concatCss("wan.css"))
     .pipe(cleanCss({compatibility:'ie8'}))
-    .pipe(gulp.dest('online/'));
+    .pipe(gulp.dest('dist/'));
 });
 
 gulp.task('js',function(){
